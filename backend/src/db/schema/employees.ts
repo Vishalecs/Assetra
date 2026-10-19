@@ -1,5 +1,5 @@
 import { pgEnum, pgTable, varchar, text, timestamp, boolean, primaryKey } from 'drizzle-orm/pg-core';
-import { permissions, userRoleEnum, employeeStatusEnum } from './users';
+import { permissions, userRoleEnum, employeeStatusEnum } from './users.js';
 
 export const genderEnum = pgEnum('gender', ['MALE', 'FEMALE', 'OTHER']);
 

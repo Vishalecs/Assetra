@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import env from '../../config/env.js';
-import { db } from '../../config/db';
-import { departments, designations, employees, permissions, rolePermissions, roles, users } from '../schema';
+import { db } from '../../config/db.js';
+import { departments, designations, employees, permissions, rolePermissions, roles, users } from '../schema/index.js';
 import { sql } from 'drizzle-orm';
 
 export const seedDatabase = async () => {
