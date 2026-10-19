@@ -7,6 +7,14 @@ const nextConfig = (phase) => ({
   experimental: {
     typedRoutes: false,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: 'https://assetra-ynox.onrender.com/api/v1/:path*',
+      },
+    ];
+  },
 });
 
 export default nextConfig;

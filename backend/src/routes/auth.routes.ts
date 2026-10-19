@@ -11,7 +11,7 @@ const router = Router();
 const tokenCookieOptions = {
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
-  sameSite: env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
+  sameSite: 'lax' as const,
 };
 
 router.post('/login', async (req, res) => {
