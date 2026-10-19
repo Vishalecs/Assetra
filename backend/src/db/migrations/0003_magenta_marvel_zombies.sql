@@ -1,2 +1,2 @@
-ALTER TABLE "designations" ADD COLUMN "department" text DEFAULT '' NOT NULL;--> statement-breakpoint
+ALTER TABLE "designations" ADD COLUMN IF NOT EXISTS "department" text DEFAULT '' NOT NULL;--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "designations_department_name_unique" ON "designations" USING btree ("department","name");

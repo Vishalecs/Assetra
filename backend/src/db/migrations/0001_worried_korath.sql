@@ -23,22 +23,22 @@ CREATE TABLE IF NOT EXISTS "employee_permissions" (
 --> statement-breakpoint
 CREATE SEQUENCE IF NOT EXISTS employee_code_seq START WITH 10000 INCREMENT BY 1 NO CYCLE;
 --> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "alternate_mobile_number" varchar(24);--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "address_line_1" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "address_line_2" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "city" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "state" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "district" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "pincode" varchar(12);--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "bank_name" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "bank_account_number" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "bank_ifsc" varchar(32);--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "bank_branch" text;--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "created_by" varchar(32);--> statement-breakpoint
-ALTER TABLE "employees" ADD COLUMN "updated_by" varchar(32);--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "auth_version" integer DEFAULT 0 NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "last_login_at" timestamp with time zone;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "last_password_reset_at" timestamp with time zone;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "alternate_mobile_number" varchar(24);--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "address_line_1" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "address_line_2" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "city" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "state" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "district" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "pincode" varchar(12);--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "bank_name" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "bank_account_number" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "bank_ifsc" varchar(32);--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "bank_branch" text;--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "created_by" varchar(32);--> statement-breakpoint
+ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "updated_by" varchar(32);--> statement-breakpoint
+ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "auth_version" integer DEFAULT 0 NOT NULL;--> statement-breakpoint
+ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "last_login_at" timestamp with time zone;--> statement-breakpoint
+ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "last_password_reset_at" timestamp with time zone;--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
