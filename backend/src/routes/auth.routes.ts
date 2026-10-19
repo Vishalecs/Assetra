@@ -8,6 +8,11 @@ import { requireAuth, requirePermission, requireRole } from '../middlewares/auth
 import { apiError, apiSuccess } from '../utils/response.js';
 
 const router = Router();
+const tokenCookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === 'production',
+  sameSite: env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
+};
 
 router.post('/login', async (req, res) => {
   const { employeeId, password } = req.body || {};
@@ -55,9 +60,7 @@ router.post('/login', async (req, res) => {
   const token = jwt.sign(payload, env.JWT_SECRET, { expiresIn: '8h' });
 
   res.cookie('token', token, {
-    httpOnly: true,
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    ...tokenCookieOptions,
     maxAge: 8 * 60 * 60 * 1000,
   });
 
@@ -72,7 +75,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', (_req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', tokenCookieOptions);
   return apiSuccess(res, { loggedOut: true });
 });
 
@@ -140,9 +143,7 @@ router.post('/first-login-password', requireAuth, async (req, res) => {
     authVersion: updated.rows[0].authVersion,
   }, env.JWT_SECRET, { expiresIn: '8h' });
   res.cookie('token', token, {
-    httpOnly: true,
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    ...tokenCookieOptions,
     maxAge: 8 * 60 * 60 * 1000,
   });
   createAuditLog(req.user!.employeeId, req.user!.name || req.user!.employeeId, 'Password Changed', 'Completed required first-login password setup.', req.user!.employeeId);
@@ -175,9 +176,7 @@ router.post('/refresh', (req, res) => {
     );
 
     res.cookie('token', fresh, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      ...tokenCookieOptions,
       maxAge: 8 * 60 * 60 * 1000,
     });
 

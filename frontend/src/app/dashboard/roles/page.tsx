@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function RolesPermissionsPage() {
@@ -11,8 +13,8 @@ export default function RolesPermissionsPage() {
     const loadData = async () => {
       try {
         const [rolesResponse, permissionsResponse] = await Promise.all([
-          fetch('http://localhost:5000/api/v1/master-data/roles', { credentials: 'include' }),
-          fetch('http://localhost:5000/api/v1/master-data/permissions', { credentials: 'include' }),
+          fetch(apiUrl('/master-data/roles'), { credentials: 'include' }),
+          fetch(apiUrl('/master-data/permissions'), { credentials: 'include' }),
         ]);
 
         const [rolesData, permissionsData] = await Promise.all([

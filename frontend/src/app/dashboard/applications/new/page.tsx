@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useState } from 'react';
 
 export default function NewApplicationPage() {
@@ -22,7 +24,7 @@ export default function NewApplicationPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/v1/applications', {
+      const response = await fetch(apiUrl('/applications'), {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function ApplicationsPage() {
@@ -7,7 +9,7 @@ export default function ApplicationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/applications', { credentials: 'include' })
+    fetch(apiUrl('/applications'), { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setItems(data?.data?.items || []))
       .catch(() => setItems([]))

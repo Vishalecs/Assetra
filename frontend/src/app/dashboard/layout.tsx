@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     const loadSession = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/auth/me', {
+        const response = await fetch(apiUrl('/auth/me'), {
           credentials: 'include',
         });
 
@@ -71,7 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [user]);
 
   const handleLogout = async () => {
-    await fetch('http://localhost:5000/api/v1/auth/logout', {
+    await fetch(apiUrl('/auth/logout'), {
       method: 'POST',
       credentials: 'include',
     });

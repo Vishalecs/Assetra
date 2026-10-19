@@ -14,12 +14,23 @@ import { initializeStore, store } from './store.js';
 
 const app = express();
 const globalObj = globalThis as typeof globalThis & { __assetra_store?: typeof store };
+const allowedOrigins = [
+  'https://assetra-tau.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
 
 initializeStore();
 globalObj.__assetra_store = store;
 
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
+}));
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

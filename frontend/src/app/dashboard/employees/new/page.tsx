@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,8 +28,8 @@ export default function NewEmployeePage() {
     const load = async () => {
       try {
         const [profileResponse, lookupResponse] = await Promise.all([
-          fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' }),
-          fetch('http://localhost:5000/api/v1/employees/lookups', { credentials: 'include' }),
+          fetch(apiUrl('/auth/me'), { credentials: 'include' }),
+          fetch(apiUrl('/employees/lookups'), { credentials: 'include' }),
         ]);
         if (!profileResponse.ok) return void (window.location.href = '/');
         if (!lookupResponse.ok) throw new Error('Unable to load employee options.');
@@ -57,7 +59,7 @@ export default function NewEmployeePage() {
     setMessage('');
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/v1/employees', {
+      const response = await fetch(apiUrl('/employees'), {
         method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form),
       });
       const result = await response.json();

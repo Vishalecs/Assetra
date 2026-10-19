@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Eye, Pencil, Plus, RotateCcw, Search } from 'lucide-react';
@@ -37,10 +39,10 @@ export default function EmployeesPage() {
     });
     try {
       const [profileResponse, listResponse, statsResponse, lookupsResponse] = await Promise.all([
-        fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' }),
-        fetch(`http://localhost:5000/api/v1/employees?${params.toString()}`, { credentials: 'include' }),
-        fetch('http://localhost:5000/api/v1/employees/stats', { credentials: 'include' }),
-        fetch('http://localhost:5000/api/v1/employees/lookups', { credentials: 'include' }),
+        fetch(apiUrl('/auth/me'), { credentials: 'include' }),
+        fetch(apiUrl(`/employees?${params.toString()}`), { credentials: 'include' }),
+        fetch(apiUrl('/employees/stats'), { credentials: 'include' }),
+        fetch(apiUrl('/employees/lookups'), { credentials: 'include' }),
       ]);
       if (!profileResponse.ok) {
         window.location.href = '/';
@@ -92,7 +94,7 @@ export default function EmployeesPage() {
     if (!window.confirm(`Are you sure you want to ${nextStatus} ${employee.name}?`)) return;
     const status = employee.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(employee.employeeId)}/status`, {
+      const response = await fetch(apiUrl(`/employees/${encodeURIComponent(employee.employeeId)}/status`), {
         method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }),
       });
       const result = await response.json();

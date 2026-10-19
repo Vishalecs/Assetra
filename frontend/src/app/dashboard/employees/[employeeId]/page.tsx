@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,8 +28,8 @@ export default function EmployeeDetailsPage() {
     const load = async () => {
       try {
         const [profileResponse, response] = await Promise.all([
-          fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' }),
-          fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(params.employeeId)}`, { credentials: 'include' }),
+          fetch(apiUrl('/auth/me'), { credentials: 'include' }),
+          fetch(apiUrl(`/employees/${encodeURIComponent(params.employeeId)}`), { credentials: 'include' }),
         ]);
         const [profile, result] = await Promise.all([profileResponse.json(), response.json()]);
         if (!profileResponse.ok) return void (window.location.href = '/');

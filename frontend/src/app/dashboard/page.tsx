@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
@@ -11,8 +13,8 @@ export default function DashboardPage() {
     const loadDashboard = async () => {
       try {
         const [profileResponse, dashboardResponse] = await Promise.all([
-          fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' }),
-          fetch('http://localhost:5000/api/v1/dashboard', { credentials: 'include' }),
+          fetch(apiUrl('/auth/me'), { credentials: 'include' }),
+          fetch(apiUrl('/dashboard'), { credentials: 'include' }),
         ]);
 
         if (!profileResponse.ok || !dashboardResponse.ok) {

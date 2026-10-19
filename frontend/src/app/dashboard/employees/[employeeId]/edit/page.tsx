@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -29,9 +31,9 @@ export default function EditEmployeePage() {
     const load = async () => {
       try {
         const [profileResponse, employeeResponse, lookupResponse] = await Promise.all([
-          fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' }),
-          fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(params.employeeId)}`, { credentials: 'include' }),
-          fetch('http://localhost:5000/api/v1/employees/lookups', { credentials: 'include' }),
+          fetch(apiUrl('/auth/me'), { credentials: 'include' }),
+          fetch(apiUrl(`/employees/${encodeURIComponent(params.employeeId)}`), { credentials: 'include' }),
+          fetch(apiUrl('/employees/lookups'), { credentials: 'include' }),
         ]);
         if (!profileResponse.ok) return void (window.location.href = '/');
         const [profile, details, lookupData] = await Promise.all([profileResponse.json(), employeeResponse.json(), lookupResponse.json()]);
@@ -59,7 +61,7 @@ export default function EditEmployeePage() {
     try {
       const payload = { ...form };
       if (user?.role !== 'SUPER_ADMIN') delete payload.systemRole;
-      const response = await fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(params.employeeId)}`, {
+      const response = await fetch(apiUrl(`/employees/${encodeURIComponent(params.employeeId)}`), {
         method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
       });
       const result = await response.json();

@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function DepartmentsPage() {
@@ -7,7 +9,7 @@ export default function DepartmentsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/master-data/departments', { credentials: 'include' })
+    fetch(apiUrl('/master-data/departments'), { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setItems(data?.data || []))
       .catch(() => setItems([]))

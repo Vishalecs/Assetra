@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { KeyRound, Search } from 'lucide-react';
@@ -16,7 +18,7 @@ export default function ChangePasswordPage() {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' });
+        const response = await fetch(apiUrl('/auth/me'), { credentials: 'include' });
         if (!response.ok) return void (window.location.href = '/');
         const result = await response.json();
         if (!['SUPER_ADMIN', 'IT_ADMIN'].includes(result.data.user.role)) return void (window.location.href = '/dashboard');
@@ -33,7 +35,7 @@ export default function ChangePasswordPage() {
     setLoadingEmployee(true);
     setMessage(null);
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(requestedEmployeeId.trim())}`, { credentials: 'include' });
+      const response = await fetch(apiUrl(`/employees/${encodeURIComponent(requestedEmployeeId.trim())}`), { credentials: 'include' });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || 'Employee not found.');
       setEmployee(result.data.employee);
@@ -59,7 +61,7 @@ export default function ChangePasswordPage() {
     setSubmitting(true);
     setMessage(null);
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/employees/${encodeURIComponent(employee.employeeId)}/reset-password`, {
+      const response = await fetch(apiUrl(`/employees/${encodeURIComponent(employee.employeeId)}/reset-password`), {
         method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(passwords),
       });
       const result = await response.json();

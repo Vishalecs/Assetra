@@ -1,11 +1,13 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function TransactionsPage() {
   const [items, setItems] = useState<any[]>([]);
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/applications', { credentials: 'include' })
+    fetch(apiUrl('/applications'), { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setItems((data?.data?.items || []).map((item: any) => ({
         id: item.id,

@@ -1,12 +1,14 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function IndividualLendingPage() {
   const [applications, setApplications] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/applications', { credentials: 'include' })
+    fetch(apiUrl('/applications'), { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setApplications(data?.data?.items || []))
       .catch(() => setApplications([]));

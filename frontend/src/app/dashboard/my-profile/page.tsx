@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function MyProfilePage() {
@@ -9,7 +11,7 @@ export default function MyProfilePage() {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' });
+        const response = await fetch(apiUrl('/auth/me'), { credentials: 'include' });
         const data = await response.json();
         setUser(data?.data?.user || null);
       } catch {

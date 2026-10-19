@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 
 export default function BranchesPage() {
@@ -7,7 +9,7 @@ export default function BranchesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/master-data/branches', { credentials: 'include' })
+    fetch(apiUrl('/master-data/branches'), { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setItems(data?.data || []))
       .catch(() => setItems([]))

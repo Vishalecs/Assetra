@@ -1,5 +1,7 @@
 'use client';
 
+import { apiUrl } from '@/utils/api';
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { KeyRound, ShieldCheck } from 'lucide-react';
@@ -14,7 +16,7 @@ export default function FirstLoginPasswordPage() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/auth/me', { credentials: 'include' });
+        const response = await fetch(apiUrl('/auth/me'), { credentials: 'include' });
         if (!response.ok) return void router.replace('/');
         const result = await response.json();
         if (!result.data.user.requiresPasswordChange) return void router.replace('/dashboard');
@@ -32,7 +34,7 @@ export default function FirstLoginPasswordPage() {
     setError('');
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/first-login-password', {
+      const response = await fetch(apiUrl('/auth/first-login-password'), {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
